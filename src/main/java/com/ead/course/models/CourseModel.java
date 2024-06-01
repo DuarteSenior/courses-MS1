@@ -1,5 +1,8 @@
 package com.ead.course.models;
 
+import com.ead.course.enums.CourseLevel;
+import com.ead.course.enums.CourseStatus;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
