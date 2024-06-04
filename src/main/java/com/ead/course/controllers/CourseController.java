@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/courses")
@@ -28,6 +30,17 @@ public class CourseController {
         courseModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         courseService.save(courseModel);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.save(courseModel););
+        return ResponseEntity.status(HttpStatus.CREATED).body(courseService.save(courseModel));
+    }
+
+    @DeleteMapping("/courseId")
+    public ResponseEntity<Object> deleteCourse(@PathVariable UUID courseId) {
+        Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
+        if (!courseModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found");
+        }
+        courseService.delete(courseModelOptional.get());
+
+        return ResponseEntity.status(HttpStatus.OK).body("Course deleted successfully");
     }
 }
