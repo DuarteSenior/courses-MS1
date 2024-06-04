@@ -65,10 +65,20 @@ public class CourseController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CourseModel>> getAllCourses(){
+    public ResponseEntity<List<CourseModel>> getAllCourses() {
         return ResponseEntity.status(HttpStatus.OK).body(courseService.findAll());
 
     }
 
-    
+    @GetMapping("/{courseId}")
+    public ResponseEntity<Object> getOneCourse(@PathVariable UUID courseId) {
+        Optional<CourseModel> courseModelOptional = courseService.findById(courseId);
+        if (!courseModelOptional.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Course Not Found");
+        }
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(courseModelOptional.get());
+
+    }
 }
